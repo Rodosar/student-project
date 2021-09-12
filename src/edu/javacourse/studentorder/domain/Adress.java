@@ -10,6 +10,7 @@ public class Adress {
 
     public String getStreet() {
         return street;
+
     }
 
     public void setStreet(String street) {
