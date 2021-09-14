@@ -3,27 +3,28 @@ package edu.javacourse.studentorder.domain;
 
 import java.time.LocalDate;
 
-
-
-public class Adult extends Person {
-    private String passportSeries;
+public class Adult extends Person
+{
+    private String passportSeria;
     private String passportNumber;
     private LocalDate issueDate;
     private String issueDepartment;
-    private String university;
+    private String univesity;
     private String studentId;
+
+    public Adult() {
+    }
 
     public Adult(String surName, String givenName, String patronymic, LocalDate dateOfBirth) {
         super(surName, givenName, patronymic, dateOfBirth);
     }
 
-
-    public String getPassportSeries() {
-        return passportSeries;
+    public String getPassportSeria() {
+        return passportSeria;
     }
 
-    public void setPassportSeries(String passportSeries) {
-        this.passportSeries = passportSeries;
+    public void setPassportSeria(String passportSeria) {
+        this.passportSeria = passportSeria;
     }
 
     public String getPassportNumber() {
@@ -50,12 +51,12 @@ public class Adult extends Person {
         this.issueDepartment = issueDepartment;
     }
 
-    public String getUniversity() {
-        return university;
+    public String getUnivesity() {
+        return univesity;
     }
 
-    public void setUniversity(String university) {
-        this.university = university;
+    public void setUnivesity(String univesity) {
+        this.univesity = univesity;
     }
 
     public String getStudentId() {
