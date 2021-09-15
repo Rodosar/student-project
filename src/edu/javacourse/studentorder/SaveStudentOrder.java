@@ -49,16 +49,24 @@ public class SaveStudentOrder
         wife.setIssueDepartment("Отдел милиции №" + id);
         wife.setStudentId("" + (200000 + id));
         wife.setAddress(address);
-        // Ребенок
-        Child child = new Child("Петрова", "Ирина", "Викторовна", LocalDate.of(2018, 6, 29));
-        child.setCertificateNumber("" + (300000 + id));
-        child.setIssueDate(LocalDate.of(2018, 7, 19));
-        child.setIssueDepartment("ОТдел ЗАГС №" + id);
-        child.setAddress(address);
+        // Ребенок 1
+        Child child1 = new Child("Петрова", "Ирина", "Викторовна", LocalDate.of(2018, 6, 29));
+        child1.setCertificateNumber("" + (300000 + id));
+        child1.setIssueDate(LocalDate.of(2018, 7, 19));
+        child1.setIssueDepartment("Отдел ЗАГС №" + id);
+        child1.setAddress(address);
+
+        // Ребенок 2
+        Child child2 = new Child("Петров", "Евгений", "Викторович", LocalDate.of(2018, 6, 29));
+        child2.setCertificateNumber("" + (400000 + id));
+        child2.setIssueDate(LocalDate.of(2018, 7, 19));
+        child2.setIssueDepartment("Отдел ЗАГС №" + id);
+        child2.setAddress(address);
 
         so.setHusband(husband);
         so.setWife(wife);
-        so.setChild(child);
+        so.addChild(child1);
+        so.addChild(child2);
 
         return so;
     }
