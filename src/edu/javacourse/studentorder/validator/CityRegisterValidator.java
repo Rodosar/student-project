@@ -50,6 +50,10 @@ public class CityRegisterValidator {
             ex.printStackTrace(System.out);
             status = AnswerCityRegisterItem.CityStatus.ERROR;
             error = new AnswerCityRegisterItem.CityError(IN_CODE, ex.getMessage());
+        } catch (Exception ex){
+            ex.printStackTrace(System.out);
+            status = AnswerCityRegisterItem.CityStatus.ERROR;
+            error = new AnswerCityRegisterItem.CityError(IN_CODE, ex.getMessage());
         }
 
         AnswerCityRegisterItem ans = new AnswerCityRegisterItem(status, person, error);
