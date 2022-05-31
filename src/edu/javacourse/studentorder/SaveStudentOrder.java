@@ -1,10 +1,10 @@
 package edu.javacourse.studentorder;
 
-import edu.javacourse.studentorder.dao.DictionaryDaoImpl;
+import edu.javacourse.studentorder.dao.StudentDaoImpl;
+import edu.javacourse.studentorder.dao.StudentOrderDao;
 import edu.javacourse.studentorder.domain.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public class SaveStudentOrder
 {
@@ -22,7 +22,7 @@ public class SaveStudentOrder
         List<RegisterOffice> ro = new DictionaryDaoImpl().findRegisterOffices("010010000000");
         for(RegisterOffice r : ro) {
             System.out.println(r.getOfficeName());
-        }*/
+        }
 
         List<CountryArea> ca1 = new DictionaryDaoImpl().findAreas("");
         for (CountryArea c : ca1) {
@@ -42,9 +42,12 @@ public class SaveStudentOrder
         List<CountryArea> ca4 = new DictionaryDaoImpl().findAreas("020020010000");
         for (CountryArea c : ca4) {
             System.out.println(c.getAreaId() + ":" + c.getAreaName());
-        }
+        }*/
 
-//        StudentOrder s = buildStudentOrder(10);
+        StudentOrder s = buildStudentOrder(10);
+        StudentOrderDao dao = new StudentDaoImpl();
+        Long id = dao.saveStudentOrder(s);
+        System.out.println(id);
 //        StudentOrder so = new StudentOrder();
 //        long ans = saveStudentOrder(so);
 //        System.out.println(ans);
