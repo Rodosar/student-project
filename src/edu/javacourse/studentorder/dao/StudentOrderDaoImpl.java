@@ -6,8 +6,10 @@ import edu.javacourse.studentorder.exception.DaoException;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.LinkedList;
+import java.util.List;
 
-public class StudentDaoImpl implements StudentOrderDao{
+public class StudentOrderDaoImpl implements StudentOrderDao{
 
     private static final String INSERT_ORDER =
             "INSERT INTO jc_student_order(" +
@@ -25,6 +27,8 @@ public class StudentDaoImpl implements StudentOrderDao{
             "c_certificate_number, c_certificate_date, c_register_office_id, c_post_index, c_street_code, c_building, " +
             "c_extension, c_apartment)" +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+
+    private static final String SELECT_ORDERS = "SELECT * FROM jc_student_order WHERE student_order_status = 0 ORDER BY student_order_date";
 
 
     // TODO refactoring - make one method
@@ -78,6 +82,85 @@ public class StudentDaoImpl implements StudentOrderDao{
             throw new DaoException(ex);
         }
         return result;
+    }
+
+    @Override
+    public List<StudentOrder> getStudentOrders() throws DaoException {
+
+        List<StudentOrder> result = new LinkedList<>();
+
+        try (Connection connection = getConnection(); PreparedStatement stmt = connection.prepareStatement(SELECT_ORDERS)) {
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                StudentOrder so = new StudentOrder();
+
+                fillStudentOrder(rs, so);
+                fillMarriage(rs, so);
+
+                Adult husband = fillAdult(rs, "h_");
+                Adult wife = fillAdult(rs, "w_");
+                so.setHusband(husband);
+                so.setWife(wife);
+
+                result.add(so);
+            }
+
+            rs.close();
+
+
+        } catch (SQLException ex) {
+            throw new DaoException(ex);
+        }
+            return result;
+    }
+
+    private Adult fillAdult(ResultSet rs, String pref) throws SQLException {
+        Adult adult = new Adult();
+        adult.setSurName(rs.getString(pref + "sur_name"));
+        adult.setGivenName(rs.getString(pref + "given_name"));
+        adult.setPatronymic(rs.getString(pref + "patronymic"));
+        adult.setDateOfBirth(rs.getDate(pref + "date_of_birth").toLocalDate());
+        adult.setPassportSeria(rs.getString(pref + "passport_seria"));
+        adult.setPassportNumber(rs.getString(pref + "passport_number"));
+        adult.setIssueDate(rs.getDate(pref + "passport_date").toLocalDate());
+
+        PassportOffice po = new PassportOffice(rs.getLong(pref + "passport_office_id"), "", "");
+        adult.setIssueDepartment(po);
+        Address add = new Address();
+        Street st = new Street(rs.getLong(pref + "street_code"), "");
+        add.setStreet(st);
+        add.setPostCode(rs.getString(pref + "post_index"));
+        add.setBuilding(rs.getString(pref + "building"));
+        add.setExtension(rs.getString(pref + "extension"));
+        add.setApartment(rs.getString(pref + "apartment"));
+        adult.setAddress(add);
+
+        University uni = new University(rs.getLong(pref + "university_id"), "" );
+        adult.setUniversity(uni);
+        adult.setStudentId(rs.getString(pref + "student_number"));
+
+
+
+
+        return adult;
+    }
+
+    private void fillStudentOrder(ResultSet rs, StudentOrder so) throws SQLException {
+        so.setStudentOrderId(rs.getLong("student_order_id"));
+        so.setStudentOrderDate(rs.getTimestamp("student_order_date").toLocalDateTime());
+        so.setStudentOrderStatus(StudentOrderStatus.fromValue(rs.getInt("student_order_status")));
+
+    }
+
+    private void fillMarriage(ResultSet rs, StudentOrder so) throws SQLException{
+        so.setMarriageCertificateId(rs.getString("certificate_id"));
+        so.setMarriageDate(rs.getDate("marriage_date").toLocalDate());
+        Long roId = rs.getLong("register_office_id");
+        RegisterOffice ro = new RegisterOffice(roId, "", "");
+
+        so.setMarriageOffice(ro);
+
     }
 
     private void saveChildren(Connection con, StudentOrder so, Long soId) throws SQLException {

@@ -1,6 +1,6 @@
 package edu.javacourse.studentorder;
 
-import edu.javacourse.studentorder.dao.StudentDaoImpl;
+import edu.javacourse.studentorder.dao.StudentOrderDaoImpl;
 import edu.javacourse.studentorder.dao.StudentOrderDao;
 import edu.javacourse.studentorder.domain.*;
 
@@ -44,10 +44,10 @@ public class SaveStudentOrder
             System.out.println(c.getAreaId() + ":" + c.getAreaName());
         }*/
 
-        StudentOrder s = buildStudentOrder(10);
-        StudentOrderDao dao = new StudentDaoImpl();
-        Long id = dao.saveStudentOrder(s);
-        System.out.println(id);
+//        StudentOrder s = buildStudentOrder(10);
+        StudentOrderDao dao = new StudentOrderDaoImpl();
+//        Long id = dao.saveStudentOrder(s);
+//        System.out.println(id);
 //        StudentOrder so = new StudentOrder();
 //        long ans = saveStudentOrder(so);
 //        System.out.println(ans);
