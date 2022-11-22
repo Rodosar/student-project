@@ -28,7 +28,9 @@ public class StudentOrderDaoImpl implements StudentOrderDao{
             "c_extension, c_apartment)" +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
-    private static final String SELECT_ORDERS = "SELECT * FROM jc_student_order WHERE student_order_status = 0 ORDER BY student_order_date";
+    private static final String SELECT_ORDERS = "SELECT so.*, ro.r_office_id, ro.r_office_name FROM jc _student_order so " +
+            "INNER JOIN jc_register_office ro ON ro.r_office_id=so.register_office_id " +
+            "WHERE student_order_status=0 ORDER BY student_order_date";
 
 
     // TODO refactoring - make one method
